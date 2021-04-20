@@ -2,13 +2,13 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Mm]emoryCaptures/
+/CircuitSandboxMVP/[Ll]ibrary/
+/CircuitSandboxMVP/[Tt]emp/
+/CircuitSandboxMVP/[Oo]bj/
+/CircuitSandboxMVP/[Bb]uild/
+/CircuitSandboxMVP/[Bb]uilds/
+/CircuitSandboxMVP/[Ll]ogs/
+/CircuitSandboxMVP/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
