@@ -23,20 +23,20 @@ public class CircuitManager : MonoBehaviour
             if(current is WireTile)
             {
                 WireTile wire = ScriptableObject.CreateInstance<WireTile>();
-                wire.wireSprites = allSprites.wireSprites;
+                wire.sprites = allSprites;
                 tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), wire);
             }
             else if(current is AndTile)
             {
                 AndTile and = ScriptableObject.CreateInstance<AndTile>();
-                and.trueAndSprites = allSprites.twoWiresSprites;
+                and.sprites = allSprites;
                 and.sprite = allSprites.andSprite;
                 tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), and);
             }
             else if(current is OrTile)
             {
                 OrTile or = ScriptableObject.CreateInstance<OrTile>();
-                or.trueOrSprites = allSprites.twoWiresSprites;
+                or.sprites = allSprites;
                 or.sprite = allSprites.orSprite;
                 tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), or);
             }
@@ -61,15 +61,13 @@ public class CircuitManager : MonoBehaviour
             else if(current is OutputTile)
             {
                 OutputTile output = ScriptableObject.CreateInstance<OutputTile>();
-                output.onSprite = allSprites.outputOnSprite;
-                output.offSprite = allSprites.outputOffSprite;
+                output.sprites = allSprites;
                 tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), output);
             }
             else if(current is PlaceholderTile)
             {
                 PlaceholderTile placeholder = ScriptableObject.CreateInstance<PlaceholderTile>();
-                placeholder.allSprites = allSprites;
-                placeholder.truePlaceholderSprites = allSprites.twoWiresSprites;
+                placeholder.sprites = allSprites;
                 placeholder.sprite = allSprites.placeholderSprite;
                 placeholders.Add(new Vector3Int(pos.x, pos.y, 0));
                 tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), placeholder);
@@ -92,21 +90,21 @@ public class CircuitManager : MonoBehaviour
             {
                 case 0: {
                     WireTile tile = ScriptableObject.CreateInstance<WireTile>();
-                    tile.wireSprites = allSprites.wireSprites;
+                    tile.sprites = allSprites;
                     tilemap.SetTile(location, tile);
                     Debug.Log("index " + index);
                     break;
                 }
                 case 1: {
                     AndTile tile = ScriptableObject.CreateInstance<AndTile>();
-                    tile.trueAndSprites = allSprites.twoWiresSprites;
+                    tile.sprites = allSprites;
                     tile.sprite = allSprites.andSprite;
                     tilemap.SetTile(location, tile);
                     break;
                 }
                 case 2: {
                     OrTile tile = ScriptableObject.CreateInstance<OrTile>();
-                    tile.trueOrSprites = allSprites.twoWiresSprites;
+                    tile.sprites = allSprites;
                     tile.sprite = allSprites.orSprite;
                     tilemap.SetTile(location, tile);
                     break;
@@ -132,8 +130,7 @@ public class CircuitManager : MonoBehaviour
                 }
                 case 6: {
                     OutputTile tile = ScriptableObject.CreateInstance<OutputTile>();
-                    tile.onSprite = allSprites.outputOnSprite;
-                    tile.offSprite = allSprites.outputOffSprite;
+                    tile.sprites = allSprites;
                     tilemap.SetTile(location, tile);
                     break;
                 }

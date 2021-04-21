@@ -8,8 +8,7 @@ using UnityEditor;
 
 public class OutputTile : Tile
 {
-    public Sprite onSprite;
-    public Sprite offSprite;
+    public AllSprites sprites;
     public override void RefreshTile(Vector3Int location, ITilemap tilemap)
     {
         if(tilemap.GetTile(location))
@@ -43,10 +42,10 @@ public class OutputTile : Tile
             return;
         }
         if(component.on) {
-            tileData.sprite = onSprite;
+            tileData.sprite = sprites.inputOnSprite;
         }
         else {
-            tileData.sprite = offSprite;
+            tileData.sprite = sprites.inputOffSprite;
             Debug.Log("offSprite");
         }
     }

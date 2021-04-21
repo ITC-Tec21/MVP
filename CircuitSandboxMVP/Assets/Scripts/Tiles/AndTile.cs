@@ -9,7 +9,7 @@ using UnityEditor;
 public class AndTile : Tile
 {
     public Tilemap realTilemap;
-    public Sprite[] trueAndSprites;
+    public AllSprites sprites;
     public override void RefreshTile(Vector3Int location, ITilemap tilemap)
     {
         realTilemap = tilemap.GetComponent<Tilemap>();
@@ -20,7 +20,7 @@ public class AndTile : Tile
         if(tilemap.GetTile<AndTile>(location))
         {
             TrueAndTile andGate = ScriptableObject.CreateInstance<TrueAndTile>();
-            andGate.gateWireSprites = trueAndSprites;
+            andGate.sprites = sprites;
 
             previousTile = tilemap.GetTile(location + new Vector3Int(-1, 0, 0));
             andGate.replacedTile = previousTile;

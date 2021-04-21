@@ -9,7 +9,7 @@ using UnityEditor;
 
 public class WireTile : Tile
 {
-    public Sprite[] wireSprites;
+    public AllSprites sprites;
     public override void RefreshTile(Vector3Int location, ITilemap tilemap)
     {
         if(tilemap.GetTile(location))
@@ -60,9 +60,9 @@ public class WireTile : Tile
         mask += Circuit.circuitComponents[location].on ? 32 : 0;
 
         int index = GetIndex((byte)mask);
-        if (index >= 0 && index < wireSprites.Length)
+        if (index >= 0 && index < sprites.wireSprites.Length)
         {
-            tileData.sprite = wireSprites[index];
+            tileData.sprite = sprites.wireSprites[index];
         }
         else
         {

@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public abstract class TrueGateTile : Tile
 {
-    public Sprite[] gateWireSprites;
+    public AllSprites sprites;
     public override void GetTileData(Vector3Int location, ITilemap tilemap, ref TileData tileData)
     {
         HashSet<Vector3Int> borders = new HashSet<Vector3Int>();
@@ -43,9 +43,9 @@ public abstract class TrueGateTile : Tile
         }
 
         int index = GetIndex((byte)mask);
-        if (index >= 0 && index < gateWireSprites.Length)
+        if (index >= 0 && index < sprites.twoWiresSprites.Length)
         {
-            tileData.sprite = gateWireSprites[index];
+            tileData.sprite = sprites.twoWiresSprites[index];
         }
         else
         {
