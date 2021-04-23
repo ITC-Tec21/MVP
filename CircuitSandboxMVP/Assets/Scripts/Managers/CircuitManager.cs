@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
+using TMPro;
 
 public class CircuitManager : MonoBehaviour
 {
@@ -10,13 +12,14 @@ public class CircuitManager : MonoBehaviour
     private int index;
     public Tilemap tilemap;
     public AllSprites allSprites;
-    public GameObject toolBox;
-    public GameObject toolBoxButton;
     public bool sandBoxMode;
-    public HashSet<Vector3Int> placeholders = new HashSet<Vector3Int>();
+    public bool tutrorialMode;
+    private HashSet<Vector3Int> placeholders = new HashSet<Vector3Int>();
+    private Vector3Int outputLocation;
+    public TextMeshProUGUI scoreText;
+    private int score = 0;
     public void Awake()
     {
-        Debug.Log(Circuit.circuitComponents.Count);
         foreach (Vector3Int pos in tilemap.cellBounds.allPositionsWithin)
         {
             TileBase current = tilemap.GetTile(pos);
@@ -63,6 +66,10 @@ public class CircuitManager : MonoBehaviour
                 OutputTile output = ScriptableObject.CreateInstance<OutputTile>();
                 output.sprites = allSprites;
                 tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), output);
+                if(!sandBoxMode)
+                {
+                    outputLocation = new Vector3Int(pos.x, pos.y, 0);
+                }
             }
             else if(current is PlaceholderTile)
             {
@@ -85,14 +92,35 @@ public class CircuitManager : MonoBehaviour
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int location = grid.WorldToCell(worldPosition);
 
-        if (sandBoxMode || placeholders.Contains(location)) {
+        if(tutrorialMode)
+        {
+            TileBase selectedTile = tilemap.GetTile(location);
+            if(selectedTile is InputTile)
+            {
+                if(selectedTile is InputOnTile)
+                {
+                    InputOffTile newTile = ScriptableObject.CreateInstance<InputOffTile>();
+                    newTile.sprite = allSprites.inputOffSprite;
+                    tilemap.SetTile(new Vector3Int(location.x, location.y, 0), newTile);
+                }
+                else
+                {
+                    InputOnTile newTile = ScriptableObject.CreateInstance<InputOnTile>();
+                    newTile.sprite = allSprites.inputOnSprite;
+                    tilemap.SetTile(new Vector3Int(location.x, location.y, 0), newTile);
+                }
+            }
+        }
+        else if (sandBoxMode || placeholders.Contains(location)) {
             switch (index)
             {
                 case 0: {
                     WireTile tile = ScriptableObject.CreateInstance<WireTile>();
                     tile.sprites = allSprites;
                     tilemap.SetTile(location, tile);
-                    Debug.Log("index " + index);
+
+                    score ++;
+                    scoreText.SetText("Movimientos: {0}", score);
                     break;
                 }
                 case 1: {
@@ -100,6 +128,9 @@ public class CircuitManager : MonoBehaviour
                     tile.sprites = allSprites;
                     tile.sprite = allSprites.andSprite;
                     tilemap.SetTile(location, tile);
+
+                    score ++;
+                    scoreText.SetText("Movimientos: {0}", score);   
                     break;
                 }
                 case 2: {
@@ -107,12 +138,18 @@ public class CircuitManager : MonoBehaviour
                     tile.sprites = allSprites;
                     tile.sprite = allSprites.orSprite;
                     tilemap.SetTile(location, tile);
+
+                    score ++;
+                    scoreText.SetText("Movimientos: {0}", score);
                     break;
                 }
                 case 3: {
                     NotTile tile = ScriptableObject.CreateInstance<NotTile>();
                     tile.sprite = allSprites.notSprite;
                     tilemap.SetTile(location, tile);
+
+                    score ++;
+                    scoreText.SetText("Movimientos: {0}", score);
                     break;
                 }
                 case 4: {
@@ -142,6 +179,7 @@ public class CircuitManager : MonoBehaviour
                     else {
                         PlaceholderTile tile = ScriptableObject.CreateInstance<PlaceholderTile>();
                         tile.sprite = allSprites.placeholderSprite;
+                        tile.sprites = allSprites;
                         tilemap.SetTile(location, tile);
                     }
                     break;
@@ -149,7 +187,29 @@ public class CircuitManager : MonoBehaviour
                 default: break;
             }            
         }
+        if(!sandBoxMode && ! tutrorialMode && Circuit.circuitComponents[outputLocation].on)
+        {
+            bool slotsCovered = true;
+            foreach(Vector3Int slot in placeholders)
+            {
+                slotsCovered = !tilemap.GetTile<PlaceholderTile>(slot) ? slotsCovered : false;
+            }
+            if(slotsCovered)
+            {
+                victory.SetActive(true);
+                screen.SetActive(true);
+                infoButton.SetActive(false);
+            }
+        }
+    }
 
+    public GameObject scope;
+    public void Update()
+    {
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int location = grid.WorldToCell(worldPosition);
+
+        scope.transform.position = grid.CellToWorld(location) + new Vector3(0.15f, 0.15f, 0);
     }
 
     public void WireClick() {
@@ -183,17 +243,43 @@ public class CircuitManager : MonoBehaviour
         index = 7;
     }
 
+    public GameObject toolBox;
+    public GameObject toolBoxButton;
     public void ToolBoxToggle() {
         if (toolBox.activeSelf) {
             toolBox.SetActive(false);
             gameObject.GetComponent<PolygonCollider2D>().enabled = true;
             //270
-            toolBoxButton.transform.rotation = Quaternion.Euler(Vector3.forward * 90);
+            toolBoxButton.transform.rotation = Quaternion.Euler(Vector3.forward * 180);
         }
         else {
             toolBox.SetActive(true);
             gameObject.GetComponent<PolygonCollider2D>().enabled = false;
-            toolBoxButton.transform.rotation = Quaternion.Euler(Vector3.forward * 270);
+            toolBoxButton.transform.rotation = Quaternion.Euler(Vector3.forward * 0);
+        }
+    }
+
+    public GameObject intructions;
+    public GameObject infoButton;
+    public GameObject screen;
+    public GameObject victory;
+    public void InstructionsToggle()
+    {
+        if(intructions.activeSelf)
+        {
+            intructions.SetActive(false);
+            screen.SetActive(false);
+            gameObject.GetComponent<PolygonCollider2D>().enabled = true;
+            gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            infoButton.GetComponent<Image>().color = Color.white;
+        }
+        else
+        {
+            intructions.SetActive(true);
+            screen.SetActive(true);
+            gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            infoButton.GetComponent<Image>().color = Color.gray;
         }
     }
 }
