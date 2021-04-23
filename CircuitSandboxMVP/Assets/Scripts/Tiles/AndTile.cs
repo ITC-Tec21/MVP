@@ -8,11 +8,10 @@ using UnityEditor;
 
 public class AndTile : Tile
 {
-    public Tilemap realTilemap;
-    public AllSprites sprites;
+        public AllSprites sprites;
     public override void RefreshTile(Vector3Int location, ITilemap tilemap)
     {
-        realTilemap = tilemap.GetComponent<Tilemap>();
+        Tilemap realTilemap = tilemap.GetComponent<Tilemap>();
 
         TileBase previousTile;
         Circuit.RemoveComponent(location);

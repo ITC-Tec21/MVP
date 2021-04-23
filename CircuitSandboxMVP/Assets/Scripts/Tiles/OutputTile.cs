@@ -42,11 +42,10 @@ public class OutputTile : Tile
             return;
         }
         if(component.on) {
-            tileData.sprite = sprites.inputOnSprite;
+            tileData.sprite = sprites.outputOnSprite;
         }
         else {
-            tileData.sprite = sprites.inputOffSprite;
-            Debug.Log("offSprite");
+            tileData.sprite = sprites.outputOffSprite;
         }
     }
 

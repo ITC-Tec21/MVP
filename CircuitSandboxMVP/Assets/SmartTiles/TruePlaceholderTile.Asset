@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59c9024db6ab9045ab533bc9e2845f7, type: 3}
   m_Name: TruePlaceholderTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -1858201435547806822, guid: b67a9d616a93e85438af7448fadca778,
-    type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -35,5 +34,5 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  gateWireSprites: []
+  sprites: {fileID: 11400000, guid: b43bed36279b9be4cb9ddd202735a509, type: 2}
   replacedTile: {fileID: 0}

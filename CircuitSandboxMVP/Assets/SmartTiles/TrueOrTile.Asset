@@ -35,17 +35,5 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  gateWireSprites:
-  - {fileID: -1858201435547806822, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: 3048845541379927821, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: -6514330741819907429, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: -2201750128748268423, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: -7376267693578499218, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: -7687643469521559986, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: 4720153385942645607, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: -4782950120805080396, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: 615501203580677154, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: -6256654509452483452, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: 1415553982591590855, guid: b67a9d616a93e85438af7448fadca778, type: 3}
-  - {fileID: 4799207274719377514, guid: b67a9d616a93e85438af7448fadca778, type: 3}
+  sprites: {fileID: 11400000, guid: b43bed36279b9be4cb9ddd202735a509, type: 2}
   replacedTile: {fileID: 0}

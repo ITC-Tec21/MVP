@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-public abstract class TruePlaceholderTile : TrueGateTile
+public class TruePlaceholderTile : TrueGateTile
 {
     public TileBase replacedTile;
 
