@@ -199,6 +199,7 @@ public class CircuitManager : MonoBehaviour
                 victory.SetActive(true);
                 screen.SetActive(true);
                 infoButton.SetActive(false);
+                StartCoroutine(gameObject.GetComponent<UploadToAPI>().uploadData(score));
             }
         }
     }
