@@ -32,4 +32,9 @@ public static class Circuit
             circuitComponents.Remove(location);
         }
     }
+
+    public static void ClearCricuit()
+    {
+        circuitComponents = new Dictionary<Vector3Int, CircuitComponent>();
+    }
 }
