@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
-    public GameObject screen;
-    public bool tutorialMode;
-
     public void GotToPause()
     {
         PlayerPrefs.SetInt("Level", SceneManager.GetActiveScene().buildIndex);

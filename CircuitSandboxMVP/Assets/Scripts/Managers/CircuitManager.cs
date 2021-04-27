@@ -15,6 +15,7 @@ public class CircuitManager : MonoBehaviour
     public bool sandBoxMode;
     public bool tutorialMode;
     private HashSet<Vector3Int> placeholders = new HashSet<Vector3Int>();
+    //
     private HashSet<Vector3Int> placeholderBuffers = new HashSet<Vector3Int>();
     private Vector3Int outputLocation;
     public TextMeshProUGUI scoreText;
@@ -132,9 +133,6 @@ public class CircuitManager : MonoBehaviour
                     WireTile tile = ScriptableObject.CreateInstance<WireTile>();
                     tile.sprites = allSprites;
                     tilemap.SetTile(location, tile);
-
-                    score ++;
-                    scoreText.SetText("Movimientos: {0}", score);
                     break;
                 }
                 case 1: {
@@ -142,9 +140,6 @@ public class CircuitManager : MonoBehaviour
                     tile.sprites = allSprites;
                     tile.sprite = allSprites.andSprite;
                     tilemap.SetTile(location, tile);
-
-                    score ++;
-                    scoreText.SetText("Movimientos: {0}", score);   
                     break;
                 }
                 case 2: {
@@ -152,18 +147,12 @@ public class CircuitManager : MonoBehaviour
                     tile.sprites = allSprites;
                     tile.sprite = allSprites.orSprite;
                     tilemap.SetTile(location, tile);
-
-                    score ++;
-                    scoreText.SetText("Movimientos: {0}", score);
                     break;
                 }
                 case 3: {
                     NotTile tile = ScriptableObject.CreateInstance<NotTile>();
                     tile.sprite = allSprites.notSprite;
                     tilemap.SetTile(location, tile);
-
-                    score ++;
-                    scoreText.SetText("Movimientos: {0}", score);
                     break;
                 }
                 case 4: {
@@ -173,7 +162,6 @@ public class CircuitManager : MonoBehaviour
                     break;
                 }
                 case 5: {
-                    Debug.Log("index " + index);
                     InputOnTile tile = ScriptableObject.CreateInstance<InputOnTile>();
                     tile.sprite = allSprites.inputOnSprite;
                     tilemap.SetTile(location, tile);
@@ -194,9 +182,6 @@ public class CircuitManager : MonoBehaviour
                     BufferTile tile = ScriptableObject.CreateInstance<BufferTile>();
                     tile.sprite = allSprites.notSprite;
                     tilemap.SetTile(location, tile);
-
-                    score ++;
-                    scoreText.SetText("Movimientos: {0}", score);
                     break;
                 }
                 default: break;
@@ -207,25 +192,21 @@ public class CircuitManager : MonoBehaviour
             switch (index)
             {
                 case 1: {
-                    Debug.Log("case 1 (and)");
                     AndTile tile = ScriptableObject.CreateInstance<AndTile>();
                     tile.sprites = allSprites;
                     tile.sprite = allSprites.andSprite;
                     tilemap.SetTile(location, tile);
 
-                    score ++;
-                    scoreText.SetText("Movimientos: {0}", score);   
+                    gameObject.GetComponent<LevelUI>().updateScore();  
                     break;
                 }
                 case 2: {
-                    Debug.Log("case 2 (or)");
                     OrTile tile = ScriptableObject.CreateInstance<OrTile>();
                     tile.sprites = allSprites;
                     tile.sprite = allSprites.orSprite;
                     tilemap.SetTile(location, tile);
 
-                    score ++;
-                    scoreText.SetText("Movimientos: {0}", score);
+                    gameObject.GetComponent<LevelUI>().updateScore();
                     break;
                 }
                 case 7: {
@@ -247,8 +228,7 @@ public class CircuitManager : MonoBehaviour
                     tile.sprite = allSprites.notSprite;
                     tilemap.SetTile(location, tile);
 
-                    score ++;
-                    scoreText.SetText("Movimientos: {0}", score);
+                    gameObject.GetComponent<LevelUI>().updateScore();
                     break;
                 }
                 case 8: {
@@ -256,8 +236,7 @@ public class CircuitManager : MonoBehaviour
                     tile.sprite = allSprites.bufferSprite;
                     tilemap.SetTile(location, tile);
 
-                    score ++;
-                    scoreText.SetText("Movimientos: {0}", score);
+                    gameObject.GetComponent<LevelUI>().updateScore();
                     break;
                 }
                 case 7: {
