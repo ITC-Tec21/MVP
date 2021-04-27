@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f415c5dbb5f7c4fa1680d6d88beff2, type: 3}
-  m_Name: SmartWire
+  m_Script: {fileID: 11500000, guid: b6e55fb7883a82140ab64b3dabd41810, type: 3}
+  m_Name: PlaceholderBufferTile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 1135619873572007795, guid: 4a6e4ccd1d0822149a84122e479a870e,
+  m_Sprite: {fileID: 5869338446453875821, guid: 4a6e4ccd1d0822149a84122e479a870e,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
@@ -35,4 +35,3 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  sprites: {fileID: 11400000, guid: b43bed36279b9be4cb9ddd202735a509, type: 2}

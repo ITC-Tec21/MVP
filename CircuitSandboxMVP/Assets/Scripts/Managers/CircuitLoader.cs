@@ -116,6 +116,7 @@ public class CircuitLoader : MonoBehaviour
                     break;
                 }
                 case 1: {
+                    Debug.Log("case 1 (and) circuit loader");
                     AndTile tile = ScriptableObject.CreateInstance<AndTile>();
                     tile.sprites = allSprites;
                     tile.sprite = allSprites.andSprite;
@@ -129,6 +130,7 @@ public class CircuitLoader : MonoBehaviour
                     
                 }
                 case 2: {
+                    Debug.Log("case 2 (or) circuit loader");
                     OrTile tile = ScriptableObject.CreateInstance<OrTile>();
                     tile.sprites = allSprites;
                     tile.sprite = allSprites.orSprite;

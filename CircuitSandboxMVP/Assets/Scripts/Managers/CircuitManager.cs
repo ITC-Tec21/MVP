@@ -13,8 +13,9 @@ public class CircuitManager : MonoBehaviour
     public Tilemap tilemap;
     public AllSprites allSprites;
     public bool sandBoxMode;
-    public bool tutrorialMode;
+    public bool tutorialMode;
     private HashSet<Vector3Int> placeholders = new HashSet<Vector3Int>();
+    private HashSet<Vector3Int> placeholderBuffers = new HashSet<Vector3Int>();
     private Vector3Int outputLocation;
     public TextMeshProUGUI scoreText;
     private int score = 0;
@@ -79,6 +80,19 @@ public class CircuitManager : MonoBehaviour
                 placeholders.Add(new Vector3Int(pos.x, pos.y, 0));
                 tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), placeholder);
             }
+            else if(current is PlaceholderBufferTile)
+            {
+                PlaceholderBufferTile placeholder = ScriptableObject.CreateInstance<PlaceholderBufferTile>();
+                placeholder.sprite = allSprites.placeholderBufferSprite;
+                placeholderBuffers.Add(new Vector3Int(pos.x, pos.y, 0));
+                tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), placeholder);
+            }
+            else if(current is BufferTile)
+            {
+                BufferTile buffer = ScriptableObject.CreateInstance<BufferTile>();
+                buffer.sprite = allSprites.bufferSprite;
+                tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), buffer);
+            }
             else
             {
                 tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), null);
@@ -92,7 +106,7 @@ public class CircuitManager : MonoBehaviour
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int location = grid.WorldToCell(worldPosition);
 
-        if(tutrorialMode)
+        if(tutorialMode)
         {
             TileBase selectedTile = tilemap.GetTile(location);
             if(selectedTile is InputTile)
@@ -111,7 +125,7 @@ public class CircuitManager : MonoBehaviour
                 }
             }
         }
-        else if (sandBoxMode || placeholders.Contains(location)) {
+        else if (sandBoxMode) {
             switch (index)
             {
                 case 0: {
@@ -172,22 +186,90 @@ public class CircuitManager : MonoBehaviour
                     break;
                 }
                 case 7: {
-                    if(sandBoxMode) {
-                        Circuit.RemoveComponent(location);
-                        tilemap.SetTile(location, null);
-                    }
-                    else {
-                        PlaceholderTile tile = ScriptableObject.CreateInstance<PlaceholderTile>();
-                        tile.sprite = allSprites.placeholderSprite;
-                        tile.sprites = allSprites;
-                        tilemap.SetTile(location, tile);
-                    }
+                    Circuit.RemoveComponent(location);
+                    tilemap.SetTile(location, null);
+                    break;
+                }
+                case 8: {
+                    BufferTile tile = ScriptableObject.CreateInstance<BufferTile>();
+                    tile.sprite = allSprites.notSprite;
+                    tilemap.SetTile(location, tile);
+
+                    score ++;
+                    scoreText.SetText("Movimientos: {0}", score);
                     break;
                 }
                 default: break;
             }            
         }
-        if(!sandBoxMode && ! tutrorialMode && Circuit.circuitComponents[outputLocation].on)
+        else if (placeholders.Contains(location))
+        {
+            switch (index)
+            {
+                case 1: {
+                    Debug.Log("case 1 (and)");
+                    AndTile tile = ScriptableObject.CreateInstance<AndTile>();
+                    tile.sprites = allSprites;
+                    tile.sprite = allSprites.andSprite;
+                    tilemap.SetTile(location, tile);
+
+                    score ++;
+                    scoreText.SetText("Movimientos: {0}", score);   
+                    break;
+                }
+                case 2: {
+                    Debug.Log("case 2 (or)");
+                    OrTile tile = ScriptableObject.CreateInstance<OrTile>();
+                    tile.sprites = allSprites;
+                    tile.sprite = allSprites.orSprite;
+                    tilemap.SetTile(location, tile);
+
+                    score ++;
+                    scoreText.SetText("Movimientos: {0}", score);
+                    break;
+                }
+                case 7: {
+                    PlaceholderTile tile = ScriptableObject.CreateInstance<PlaceholderTile>();
+                    tile.sprite = allSprites.placeholderSprite;
+                    tile.sprites = allSprites;
+                    tilemap.SetTile(location, tile);
+                    break;
+                }
+                default: break;
+            }     
+        }
+        else if (placeholderBuffers.Contains(location))
+        {
+            switch (index)
+            {
+                case 3: {
+                    NotTile tile = ScriptableObject.CreateInstance<NotTile>();
+                    tile.sprite = allSprites.notSprite;
+                    tilemap.SetTile(location, tile);
+
+                    score ++;
+                    scoreText.SetText("Movimientos: {0}", score);
+                    break;
+                }
+                case 8: {
+                    BufferTile tile = ScriptableObject.CreateInstance<BufferTile>();
+                    tile.sprite = allSprites.bufferSprite;
+                    tilemap.SetTile(location, tile);
+
+                    score ++;
+                    scoreText.SetText("Movimientos: {0}", score);
+                    break;
+                }
+                case 7: {
+                    PlaceholderBufferTile tile = ScriptableObject.CreateInstance<PlaceholderBufferTile>();
+                    tile.sprite = allSprites.placeholderBufferSprite;
+                    tilemap.SetTile(location, tile);
+                    break;
+                }
+                default: break;
+            }     
+        }
+        if(!sandBoxMode && ! tutorialMode && Circuit.circuitComponents[outputLocation].on)
         {
             bool slotsCovered = true;
             foreach(Vector3Int slot in placeholders)
@@ -242,6 +324,10 @@ public class CircuitManager : MonoBehaviour
     }
     public void EraserClick() {
         index = 7;
+    }
+
+    public void BufferClick() {
+        index = 8;
     }
 
     public GameObject toolBox;
